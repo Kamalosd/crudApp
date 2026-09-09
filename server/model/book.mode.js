@@ -20,7 +20,9 @@ const bookSchema=new mongoose.Schema({
   PublishDate:{
     type:String,
  
-  }},
+  },
+  
+  },
   {timestamps:true}
 )
 
