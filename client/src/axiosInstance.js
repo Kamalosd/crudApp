@@ -1,5 +1,5 @@
-import axios from 'axios'
+import axios from'axios'
 
-export const bookBaseUrl=axios.create({
-  baseURL:"http://localhost:9999/book/"
+ export const bookBaseUrl=axios.create({
+ baseURL:"http://localhost:9999/book"
 })

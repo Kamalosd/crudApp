@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { bookBaseUrl } from "../axiosInstance";
+import React from "react";
+import { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaPen } from "react-icons/fa";
+import { bookBaseUrl } from "../axiosInstance";
+
 const Home = () => {
-  const [bookForm, setBookForm] = useState({
-    BookName: "",
-    BookTitle: "",
+  const [book, setBook] = useState({
+    bookName: "",
+    bookTitle: "",
     Author: "",
-    SellingPrice: "",
-    PublishDate: "",
-    Id:""
+    sellingPrice: "",
+    publishDate: "",
   });
 
   const [bookList, setBookList] = useState([]);
-  const[isUpdating,setIsUpdating]=useState(false)
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const getAllBookList = async (req, res) => {
+  const getAllBookList = async () => {
     try {
-      const { data } = await bookBaseUrl.get("bookLists");
-      setBookList(data?.bookList);
+      const { data } = await bookBaseUrl.get("/bookList");
+      setBookList(data.bookList);
     } catch (err) {
       console.log(err);
     }
@@ -30,230 +31,198 @@ const Home = () => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setBookForm((prev) => ({
+    setBook((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-
   const handleSubmit = async () => {
-  try {
-    if (
-      !bookForm?.BookName ||
-      !bookForm.BookTitle ||
-      !bookForm.Author ||
-      !bookForm.SellingPrice
-    ) {
-      alert("All field are required");
-      return;
-    }
+    try {
+      if (
+        !book?.bookName ||
+        !book.bookTitle ||
+        !book.Author ||
+        !book.sellingPrice
+      ) {
+        alert("All field are required");
 
-    if (isUpdating) {
-      const { data } = await bookBaseUrl.put("/updateBook", bookForm);
-
-      if (data?.success) {
-        alert("Updated successfully");
-        getAllBookList();
-
-        setBookForm({
-          BookName: "",
-          BookTitle: "",
-          Author: "",
-          SellingPrice: "",
-          PublishDate: "",
-          Id: ""
-        });
-
-        setIsUpdating(false);
+        return;
       }
 
-      return;
-    }
+      if (isUpdating) {
+        const { data } = await bookBaseUrl.put("/updateBook", book);
 
-    const { data } = await bookBaseUrl.post("/addBook", bookForm);
-
-    console.log(data);
-
-    if (data?.success) {
-      alert("added");
-      getAllBookList();
-
-      setBookForm({
-        BookName: "",
-        BookTitle: "",
+        if (data.success) {
+          alert("Updated successfully");
+          getAllBookList();
+        }
+        setBook({
+           bookName: "",
+        bookTitle: "",
         Author: "",
-        SellingPrice: "",
-        PublishDate: "",
-        Id: ""
-      });
-    }
-
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-  const handleDelete=async(id)=>{
-    try{
-      const {data}=await bookBaseUrl.post("deleteBook",{
-        Id:id
-      })
-
-      if(data?.success){
-      alert("Deleted successfully");
-      getAllBookList();
+        sellingPrice: "",
+        publishDate: "",
+        Id: "",
+        });
+        setIsUpdating(false)
+        return;
       }
 
+      const { data } = await bookBaseUrl.post("/addBook", book);
+
+      if (data.success) {
+        alert("added");
+        getAllBookList();
+      }
+
+      setBook({
+        bookName: "",
+        bookTitle: "",
+        Author: "",
+        sellingPrice: "",
+        publishDate: "",
+        Id: "",
+      });
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  const handleUpdate=(data)=>{
-  setBookForm(
-    {
-       BookName: data?.BookName,
-          BookTitle: data?.BookTitle,
-          Author: data?.Author,
-          SellingPrice:  data?.SellingPrice,
-          PublishDate:  data?.PublishDate,
-             Id: data?._id 
+  const handleDelete = async (id) => {
+    const { data } = await bookBaseUrl.post("/deleteBook", { Id: id });
+
+    if (data?.success) {
+      alert("deleted");
     }
-  )
-  setIsUpdating(true)
-  }
-  console.log(bookForm);
+    getAllBookList();
+  };
+
+  const handleUpdate = (data) => {
+    setIsUpdating(true)
+    setBook({
+      bookName: data?.bookName,
+      bookTitle: data?.bookTitle,
+      Author: data?.Author,
+      sellingPrice: data?.sellingPrice,
+      publishDate: data?.publishDate,
+      Id: data?._id,
+    });
+  };
+
   return (
-    <div className="w-full px-9 min-h-screen mt-5 ">
-      <div className="w-full grid grid-cols-5 gap-3">
-        <div className="w-full flex flex-col  gap-2">
-          <label>Book name</label>
+    <div className=" px-10 py-6">
+      <div className=" grid grid-cols-5 gap-3 ">
+        <div>
+          <label className="font-semibold">book name</label>
+          <br />
           <input
             type="text"
-            placeholder="Book name"
-            className="w-full border border-gray-500 "
-            name="BookName"
-            value={bookForm.BookName}
+            className="border rounded-md border-gray-500 h-7 px-2 w-full"
+            name="bookName"
+            value={book.bookName}
             onChange={handleFormChange}
           ></input>
         </div>
-        <div className="w-full flex flex-col gap-2  ">
-          <label>Book Title</label>
+
+        <div>
+          <label className="font-semibold">book Title</label>
+          <br />
           <input
             type="text"
-            placeholder="Book title"
-            className="w-full border border-gray-500 "
-            name="BookTitle"
-            value={bookForm.BookTitle}
+            className="border border-gray-500 h-7 px-2 rounded-md w-full"
+            name="bookTitle"
+            value={book.bookTitle}
             onChange={handleFormChange}
           ></input>
         </div>
-        <div className="w-full flex flex-col gap-2  ">
-          <label>Author</label>
+
+        <div>
+          <label className="font-semibold">Author</label>
+          <br />
           <input
             type="text"
-            placeholder="Book Author"
-            className="w-full border border-gray-500 "
+            className="border border-gray-500 h-7 px-2 rounded-md w-full"
             name="Author"
-            value={bookForm.Author}
+            value={book.Author}
             onChange={handleFormChange}
           ></input>
         </div>
-        <div className="w-full flex flex-col gap-2  ">
-          <label>Selling price</label>
+
+        <div>
+          <label className="font-semibold">Selling Price</label>
+          <br />
           <input
             type="text"
-            placeholder="selling price"
-            className=" w-full border border-gray-500 "
-            name="SellingPrice"
-            value={bookForm.SellingPrice}
+            className="border border-gray-500 h-7 px-2 rounded-md w-full"
+            name="sellingPrice"
+            value={book.sellingPrice}
             onChange={handleFormChange}
           ></input>
         </div>
-        <div className="w-full flex flex-col gap-2  ">
-          <label>publish date</label>
+
+        <div>
+          <label className="font-semibold">Publish Date</label>
+          <br />
           <input
             type="date"
-            placeholder="publish date"
-            className="w-full border border-gray-500 "
-            name="PublishDate"
-            value={bookForm.PublishDate}
+            className="border border-gray-500 h-7 px-2 rounded-md w-full"
+            name="publishDate"
+            value={book.publishDate}
             onChange={handleFormChange}
           ></input>
         </div>
       </div>
 
-      <div className="w-full flex justify-end ">
-        <button
-          className="bg-gray-400 h-10 w-20 rounded-md cursor-pointer "
-          onClick={handleSubmit}
-        >
-          submit
-        </button>
-      </div>
+      <button
+        className="px-3 mt-5  py-1 border bg-blue-400 block ml-auto rounded-md cursor-pointer"
+        onClick={handleSubmit}
+      >
+        submit
+      </button>
 
-      <div className="w-full mt-10 ">
-        <table className="w-full bg-white">
-          <thead className="bg-gray-200 ">
-            <tr>
-              <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                book name
-              </th>
-              <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                book title
-              </th>
-              <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                Author
-              </th>
-              <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                Selling price
-              </th>
-              <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                publish date
-              </th>
-               <th className="tracking-wider px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookList?.map((book, index) => {
-              return (
-                <tr className="hover:bg-gray-200" key={index}>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    {book?.BookName}
-                  </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    {book?.BookTitle}
-                  </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    {book?.Author}
-                  </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    {book?.SellingPrice}
-                  </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    {book?.PublishDate}
-                  </td>
+      <table className="w-full mt-10 border border-gray-400 border-collapse text-center">
+        <thead>
+          <tr className=" text-left bg-gray-300">
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center"> book name </th>
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">book Title</th>
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Author</th>
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Selling Price</th>
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Publish Date</th>
+            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Action</th>
+          </tr>
+        </thead>
 
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    <div className="w-20 flex justify-center gap-5">
-                      <div className="h-8 w-8 flex justify-center items-center bg-red-100 text-red-700 rounded cursor-pointer" onClick={()=>handleDelete(book._id)}>
-                        <MdDelete />
-                      </div>
-
-                      <div className="h-8 w-8 flex justify-center items-center bg-green-100 text-green-700 rounded cursor-pointer" onClick={()=>handleUpdate(book)}>
-                        <FaPen />
-                      </div>
+        <tbody>
+          {bookList.map((book, index) => {
+            return (
+              <tr key={index} >
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.bookName}</td>
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.bookTitle}</td>
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.Author}</td>
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.sellingPrice}</td>
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.publishDate}</td>
+                <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                  <div className="flex justify-center gap-5">
+                    <div
+                      className="h-8 w-8 flex justify-center items-center  text-red-700 cursor-pointer"
+                      onClick={() => handleDelete(book._id)}
+                    >
+                      <MdDelete />
                     </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                    <div
+                      className="h-8 w-8 flex justify-center items-center  text-green-700 cursor-pointer"
+                      onClick={() => handleUpdate(book)}
+                    >
+                      <FaPen />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

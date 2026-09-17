@@ -1,75 +1,74 @@
-const {Book}=require('../model/book.mode.js')
+const {Book}=require('../model/book.mode')
 
-const handleBookStoreController=async(req,res)=>{
-  try{
-    const body=req.body
-    if(!body.BookName || !body.BookTitle ||!body.Author ||!body.SellingPrice ){
-      return res.status(400).json({Message:"all field required",success:false})
-    }
-  
+const handleAddBookController=async(req,res)=>{
+try{
+ 
+  const body=req.body
+  if(!body.bookName|| ! body.bookTitle || ! body.Author || ! body.sellingPrice ){
+
+    return res.status(400).json({
+        success: false, Message:"all field req"})
+
+  }
 
   const bookAdd= await Book.insertOne(body)
-if(bookAdd){
-return res.status(201).json({Message:"Data created successfully", success:true, id:bookAdd?._id})
-}
+ 
+  if(bookAdd){
+    return res.status(200).json({  success: true,Message:"inserted",id:bookAdd?._id})
   }
+}catch(err){
+  console.log(err)
+  return res.status(500).json({     success: false,Message:err.message})
 
-
-  catch(err){
-          return res.status(500).json({Message:err.message,success:false})
-
-  }
 }
 
+}
 
 
-
-
-
-
-const handleBookListController=async(req,res)=>{
-
+const handleAddBookListController=async(req,res)=>{
   try{
-      const bookList= await Book.find({})
-            return res.status(200).json({Message:"All booked fetched successfully",success:true,totalCount:bookList.length,bookList:bookList})
+   const bookList=await Book.find({})
+   return res.status(200).json({Message:"fetched successfully",totalCount:bookList.length,bookList:bookList})
   }
-  catch(err){
-      return res.status(400).json({Message:err.message,success:false})
-  }
-
+catch(err){
+    return res.status(500).json({Message:err.message})
+}
 }
 
 
 
+const handleDeleteBookController=async(req,res)=>{
 
-const handleBookDeleteController=async(req,res)=>{
   const body=req.body
   try{
-   const deleted=await Book.deleteOne({_id:body.Id})
-   if(deleted.acknowledged){
-     return res.json({Message:"Book Deleted successfully",success:true})
-   }
+const deleted= await Book.deleteOne({_id:body.Id })
+
+ return res.json({  success: true,Message:"Book Deleted successfully"})
+  }
+  catch(err){
+  return res.status(500).json({Message:err.message})
+  }
+}
+
+const handleUpdateBookController=async(req,res)=>{
+
+  try{
+    
+    const body=req.body
+    const updating=await Book.updateOne({_id:body.Id},{   $set: {
+          bookName: body.bookName,
+          bookTitle: body.bookTitle,
+          Author: body.Author,
+          sellingPrice: body.sellingPrice,
+          publishDate: body.publishDate
+        }})
+
+      return res.json({success: true,Message:"Book updated successfully"})
+
   }catch(err){
-      return res.status(400).json({Message:err.message,success:false})
+      return res.status(500).json({  success: false,Message:err.message})
   }
-  }
 
-
-
-
-
-
-  const handleBookEditController=async(req,res)=>{
-try{
-  const body=req.body
-const updating=await Book.updateOne({_id:body?.Id},{$set:body})
-
-   if(updating?.acknowledged){
-     return res.json({Message:"Book updated successfully",success:true})
-}}catch(err){
-    return res.status(400).json({Message:err.message,success:false})
 }
 
-  }
-
-module.exports={handleBookStoreController, handleBookListController,handleBookDeleteController, handleBookEditController}
+module.exports={handleAddBookController,handleAddBookListController,handleDeleteBookController,handleUpdateBookController}
