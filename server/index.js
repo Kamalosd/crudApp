@@ -1,5 +1,6 @@
 const express = require('express')
 const url = require('./database')
+const userRouter=require('./routes/user.route.js')
 url()
 const cors = require('cors')
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 })
 
 app.use('/book', bookRouter)
+app.use('/user',userRouter)
 
 app.listen(9999, () => {
     console.log("port listen")
