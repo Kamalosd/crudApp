@@ -23,8 +23,23 @@ try{
 }
 
 const handleSigninUserController=async(req,res)=>{
-  console.log(err)
+  const body=req.body
+ try{
+if(!body?.Email || !body?.Password ){
+return res.status(500).json({
+        success: false, Message:"email and password are required"})
+}
+
+const user=await user.findOne({Email:body.Email})
+if(!user){
+  return res.status(400).json({
+        success: false, Message:"user doesnot exist"})
+}
+
+ }catch(err){
+    console.log(err)
   return res.status(500).json({     success: false,Message:err.message})
+ }
 }
 
 
