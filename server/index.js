@@ -1,6 +1,7 @@
 const express = require('express')
 const url = require('./database')
 const userRouter=require('./routes/user.route.js')
+const authMiddleware=require('./middleware/auth.middleware.js')
 url()
 const cors = require('cors')
 

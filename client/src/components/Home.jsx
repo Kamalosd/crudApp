@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaPen } from "react-icons/fa";
 import { bookBaseUrl } from "../axiosInstance";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const [book, setBook] = useState({
@@ -111,7 +112,9 @@ const Home = () => {
   };
 
   return (
-    <div className=" px-10 py-6">
+   <> 
+<Navbar/>
+      <div className=" px-10 py-6">
       <div className=" grid grid-cols-5 gap-3 ">
         <div>
           <label className="font-semibold">book name</label>
@@ -224,6 +227,9 @@ const Home = () => {
         </tbody>
       </table>
     </div>
+   </>
+
+ 
   );
 };
 
