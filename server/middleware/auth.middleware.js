@@ -3,13 +3,13 @@ const secret_key="fqsfqshqgsh"
 const User=require("../model/user.model")
 
 const middleware=async(req,res,next)=>{
-const authHeader=req.header.authorization
+const authHeader=req.headers.authorization
 
 try{
 if(!authHeader||! authHeader.startsWith("Bearer ")){
   return res.status(401).json({  Message:"invalid token"})
 }
-const token=authHeader.split('')[1]
+const token=authHeader.split(" ")[1]
 const verified=jwt.verify(token,secret_key)
 if(!verified){
     return res.status(500).json({  Message:"invalid token"})
