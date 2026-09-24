@@ -58,16 +58,24 @@ const Login = () => {
       <nav className="h-[118px] bg-slate-500 flex items-center justify-between px-10">
         <h1 className="text-2xl font-bold text-black">logo</h1>
         <div className="flex gap-10 text-xl font-semibold">
-          <Link to="/" className="hover:text-white">home</Link>
-          <Link to="/about" className="hover:text-white">about</Link>
-          <Link to="/contact" className="hover:text-white">contact</Link>
+          <Link to="/" className="hover:text-white">
+            home
+          </Link>
+          <Link to="/about" className="hover:text-white">
+            about
+          </Link>
+          <Link to="/contact" className="hover:text-white">
+            contact
+          </Link>
         </div>
       </nav>
 
       <div className="flex justify-center items-center mt-16 px-4">
         <div className="w-full max-w-md border border-gray-300 rounded-lg p-8 shadow-md">
           <h2 className="text-3xl font-bold text-center mb-2">Login</h2>
-          <p className="text-center text-gray-500 mb-8">Login to your account</p>
+          <p className="text-center text-gray-500 mb-8">
+            Login to your account
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-5">
@@ -84,7 +92,9 @@ const Login = () => {
             </div>
 
             <div className="mb-6">
-              <label className="block text-lg font-semibold mb-2">Password</label>
+              <label className="block text-lg font-semibold mb-2">
+                Password
+              </label>
               <input
                 type="password"
                 name="Password"
@@ -106,7 +116,10 @@ const Login = () => {
 
           <p className="text-center mt-6 text-gray-600">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-600 font-semibold hover:underline">
+            <Link
+              to="/signup"
+              className="text-blue-600 font-semibold hover:underline"
+            >
               Sign Up
             </Link>
           </p>

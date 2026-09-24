@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { userBaseUrl } from "../axiosInstance";
@@ -11,15 +11,15 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const navigate=useNavigate()
-    useEffect(() => {
-      const userAuth = localStorage.getItem("userAuth");
-      const authUser = userAuth ? JSON.parse(userAuth) : null;
-  
-      if (authUser?.isLogin) {
-        navigate("/");
-      }
-    }, []);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const userAuth = localStorage.getItem("userAuth");
+    const authUser = userAuth ? JSON.parse(userAuth) : null;
+
+    if (authUser?.isLogin) {
+      navigate("/");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +42,7 @@ const Signup = () => {
       const { data } = await userBaseUrl.post("/create", signupData);
       if (data.success) {
         toast.success(data.Message);
-       navigate('/login')
+        navigate("/login");
       }
       console.log(data);
     } catch (err) {

@@ -59,14 +59,14 @@ const Home = () => {
           getAllBookList();
         }
         setBook({
-           bookName: "",
-        bookTitle: "",
-        Author: "",
-        sellingPrice: "",
-        publishDate: "",
-        Id: "",
+          bookName: "",
+          bookTitle: "",
+          Author: "",
+          sellingPrice: "",
+          publishDate: "",
+          Id: "",
         });
-        setIsUpdating(false)
+        setIsUpdating(false);
         return;
       }
 
@@ -100,7 +100,7 @@ const Home = () => {
   };
 
   const handleUpdate = (data) => {
-    setIsUpdating(true)
+    setIsUpdating(true);
     setBook({
       bookName: data?.bookName,
       bookTitle: data?.bookTitle,
@@ -112,124 +112,145 @@ const Home = () => {
   };
 
   return (
-   <> 
-<Navbar/>
+    <>
+      <Navbar />
       <div className=" px-10 py-6">
-      <div className=" grid grid-cols-5 gap-3 ">
-        <div>
-          <label className="font-semibold">book name</label>
-          <br />
-          <input
-            type="text"
-            className="border rounded-md border-gray-500 h-7 px-2 w-full"
-            name="bookName"
-            value={book.bookName}
-            onChange={handleFormChange}
-          ></input>
+        <div className=" grid grid-cols-5 gap-3 ">
+          <div>
+            <label className="font-semibold">book name</label>
+            <br />
+            <input
+              type="text"
+              className="border rounded-md border-gray-500 h-7 px-2 w-full"
+              name="bookName"
+              value={book.bookName}
+              onChange={handleFormChange}
+            ></input>
+          </div>
+
+          <div>
+            <label className="font-semibold">book Title</label>
+            <br />
+            <input
+              type="text"
+              className="border border-gray-500 h-7 px-2 rounded-md w-full"
+              name="bookTitle"
+              value={book.bookTitle}
+              onChange={handleFormChange}
+            ></input>
+          </div>
+
+          <div>
+            <label className="font-semibold">Author</label>
+            <br />
+            <input
+              type="text"
+              className="border border-gray-500 h-7 px-2 rounded-md w-full"
+              name="Author"
+              value={book.Author}
+              onChange={handleFormChange}
+            ></input>
+          </div>
+
+          <div>
+            <label className="font-semibold">Selling Price</label>
+            <br />
+            <input
+              type="text"
+              className="border border-gray-500 h-7 px-2 rounded-md w-full"
+              name="sellingPrice"
+              value={book.sellingPrice}
+              onChange={handleFormChange}
+            ></input>
+          </div>
+
+          <div>
+            <label className="font-semibold">Publish Date</label>
+            <br />
+            <input
+              type="date"
+              className="border border-gray-500 h-7 px-2 rounded-md w-full"
+              name="publishDate"
+              value={book.publishDate}
+              onChange={handleFormChange}
+            ></input>
+          </div>
         </div>
 
-        <div>
-          <label className="font-semibold">book Title</label>
-          <br />
-          <input
-            type="text"
-            className="border border-gray-500 h-7 px-2 rounded-md w-full"
-            name="bookTitle"
-            value={book.bookTitle}
-            onChange={handleFormChange}
-          ></input>
-        </div>
+        <button
+          className="px-3 mt-5  py-1 border bg-blue-400 block ml-auto rounded-md cursor-pointer"
+          onClick={handleSubmit}
+        >
+          submit
+        </button>
 
-        <div>
-          <label className="font-semibold">Author</label>
-          <br />
-          <input
-            type="text"
-            className="border border-gray-500 h-7 px-2 rounded-md w-full"
-            name="Author"
-            value={book.Author}
-            onChange={handleFormChange}
-          ></input>
-        </div>
+        <table className="w-full mt-10 border border-gray-400 border-collapse text-center">
+          <thead>
+            <tr className=" text-left bg-gray-300">
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                {" "}
+                book name{" "}
+              </th>
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                book Title
+              </th>
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                Author
+              </th>
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                Selling Price
+              </th>
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                Publish Date
+              </th>
+              <th className="whitespace-nowrap p-2 border border-gray-400 text-center">
+                Action
+              </th>
+            </tr>
+          </thead>
 
-        <div>
-          <label className="font-semibold">Selling Price</label>
-          <br />
-          <input
-            type="text"
-            className="border border-gray-500 h-7 px-2 rounded-md w-full"
-            name="sellingPrice"
-            value={book.sellingPrice}
-            onChange={handleFormChange}
-          ></input>
-        </div>
-
-        <div>
-          <label className="font-semibold">Publish Date</label>
-          <br />
-          <input
-            type="date"
-            className="border border-gray-500 h-7 px-2 rounded-md w-full"
-            name="publishDate"
-            value={book.publishDate}
-            onChange={handleFormChange}
-          ></input>
-        </div>
+          <tbody>
+            {bookList.map((book, index) => {
+              return (
+                <tr key={index}>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    {book.bookName}
+                  </td>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    {book.bookTitle}
+                  </td>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    {book.Author}
+                  </td>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    {book.sellingPrice}
+                  </td>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    {book.publishDate}
+                  </td>
+                  <td className="whitespace-nowrap p-2 border border-gray-400 ">
+                    <div className="flex justify-center gap-5">
+                      <div
+                        className="h-8 w-8 flex justify-center items-center  text-red-700 cursor-pointer"
+                        onClick={() => handleDelete(book._id)}
+                      >
+                        <MdDelete />
+                      </div>
+                      <div
+                        className="h-8 w-8 flex justify-center items-center  text-green-700 cursor-pointer"
+                        onClick={() => handleUpdate(book)}
+                      >
+                        <FaPen />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
-
-      <button
-        className="px-3 mt-5  py-1 border bg-blue-400 block ml-auto rounded-md cursor-pointer"
-        onClick={handleSubmit}
-      >
-        submit
-      </button>
-
-      <table className="w-full mt-10 border border-gray-400 border-collapse text-center">
-        <thead>
-          <tr className=" text-left bg-gray-300">
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center"> book name </th>
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">book Title</th>
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Author</th>
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Selling Price</th>
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Publish Date</th>
-            <th className="whitespace-nowrap p-2 border border-gray-400 text-center">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {bookList.map((book, index) => {
-            return (
-              <tr key={index} >
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.bookName}</td>
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.bookTitle}</td>
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.Author}</td>
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.sellingPrice}</td>
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">{book.publishDate}</td>
-                <td className="whitespace-nowrap p-2 border border-gray-400 ">
-                  <div className="flex justify-center gap-5">
-                    <div
-                      className="h-8 w-8 flex justify-center items-center  text-red-700 cursor-pointer"
-                      onClick={() => handleDelete(book._id)}
-                    >
-                      <MdDelete />
-                    </div>
-                    <div
-                      className="h-8 w-8 flex justify-center items-center  text-green-700 cursor-pointer"
-                      onClick={() => handleUpdate(book)}
-                    >
-                      <FaPen />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-   </>
-
- 
+    </>
   );
 };
 
