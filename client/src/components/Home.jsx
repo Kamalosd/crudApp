@@ -133,7 +133,7 @@ const Home = () => {
             <br />
             <input
               type="text"
-              className="border border-gray-500 h-7 px-2 rounded-md w-full"
+              className="border border-gray-300 h-7 px-2 rounded-md w-full"
               name="bookTitle"
               value={book.bookTitle}
               onChange={handleFormChange}
